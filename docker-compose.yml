@@ -8,7 +8,7 @@ services:
       - keep-net
     volumes:
       - keep-data:/data/db
-  pf-frontend:
+  keep-frontend:
     image: ${FRONTEND_IMAGE_NAME}
     stdin_open: true
     ports:
@@ -18,7 +18,7 @@ services:
     environment:
       - NGINX_PORT=${FRONTEND_PORT}
       - NGINX_PROXY=http://${PROJECT_NAME}:${BACKEND_PORT}/api
-  pf-backend:
+  keep-backend:
     image: ${BACKEND_IMAGE_NAME}
     ports:
       - ${BACKEND_PORT}:${BACKEND_PORT}
