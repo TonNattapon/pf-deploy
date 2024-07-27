@@ -1,35 +1,42 @@
 services:
   frontend:
     image: ${FRONTEND_IMAGE_NAME}
+    platform: linux/amd64
+    depends_on:
+      - backend
     ports:
       - ${FRONTEND_PORT}:${FRONTEND_PORT}
     networks:
-      - my-network
+      - keep-net
     environment:
       - NGINX_PORT=${FRONTEND_PORT}
       - NGINX_PROXY=http://${PROJECT_NAME}:${BACKEND_PORT}/api
 
   backend:
     image: ${BACKEND_IMAGE_NAME}
+    platform: linux/amd64
     ports:
       - ${BACKEND_PORT}:${BACKEND_PORT}
+    depends_on:
+      - mongo
     networks:
-      - my-network
+      - keep-net
     environment:
       - MONGO_URI=${MONGO_URI}
       - JWT_SECRET=${JWT_SECRET}
 
   mongo:
     image: mongo:latest
+    platform: linux/amd64
     ports:
       - 27017:27017
     networks:
-      - my-network
+      - keep-net
     volumes:
       - keep-data:/data/db
 
 networks:
-  my-network:
+  keep-net:
     driver: bridge
 
 volumes:
