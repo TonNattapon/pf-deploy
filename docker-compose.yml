@@ -1,5 +1,13 @@
 name: ${PROJECT_NAME}
 services:
+  database:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    networks:
+      - ${NETWORK_NAME}
+    volumes:
+      - keep-data:/data/db
   pf-frontend:
     image: ${FRONTEND_IMAGE_NAME}
     stdin_open: true
@@ -21,15 +29,6 @@ services:
     environment:
       - MONGO_URI=${MONGO_URI}
       - JWT_SECRET=${JWT_SECRET}
-  database:
-    image: mongo:latest
-    ports:
-      - 27017:27017
-    networks:
-      - ${NETWORK_NAME}
-    volumes:
-      - keep-data:/data/db
-
 networks:
   ${NETWORK_NAME}:
     driver: bridge
