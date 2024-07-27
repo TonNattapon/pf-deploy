@@ -28,10 +28,10 @@ services:
     networks:
       - ${NETWORK_NAME}
     volumes:
-      - mongo-data:/data/db
+      - keep-data:/data/db
 
 networks:
-  pf-net:
+  ${NETWORK_NAME}:
     driver: bridge
 
 volumes:
