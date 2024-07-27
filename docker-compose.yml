@@ -1,6 +1,6 @@
 name: ${PROJECT_NAME}
 services:
-  keep-db:
+  database:
     image: mongo:latest
     ports:
       - 27017:27017
@@ -8,23 +8,23 @@ services:
       - keep-net
     volumes:
       - keep-data:/data/db
-  keep-frontend:
+  frontend:
     image: ${FRONTEND_IMAGE_NAME}
     depends_on:
-      - keep-backend
+      - backend
     ports:
       - ${FRONTEND_PORT}:${FRONTEND_PORT}
     networks:
       - keep-net
     environment:
-      - NGINX_PORT=${FRONTEND_PORT}
+      - NGINX_PORT=3001
       - NGINX_PROXY=http://${PROJECT_NAME}:${BACKEND_PORT}/api
-  keep-backend:
+  backend:
     image: ${BACKEND_IMAGE_NAME}
     ports:
       - ${BACKEND_PORT}:${BACKEND_PORT}
     depends_on:
-      - keep-db
+      - database
     networks:
       - keep-net
     environment:
