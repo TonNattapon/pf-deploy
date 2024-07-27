@@ -1,4 +1,7 @@
+version: "3.8"
+
 name: ${PROJECT_NAME}
+
 services:
   database:
     image: mongo:latest
@@ -8,6 +11,8 @@ services:
       - keep-net
     volumes:
       - keep-data:/data/db
+    platform: linux/amd64
+
   frontend:
     image: ${FRONTEND_IMAGE_NAME}
     depends_on:
@@ -17,8 +22,10 @@ services:
     networks:
       - keep-net
     environment:
-      - NGINX_PORT=3001
+      - NGINX_PORT=${FRONTEND_PORT}
       - NGINX_PROXY=http://${PROJECT_NAME}:${BACKEND_PORT}/api
+    platform: linux/amd64
+
   backend:
     image: ${BACKEND_IMAGE_NAME}
     ports:
@@ -30,6 +37,8 @@ services:
     environment:
       - MONGO_URI=${MONGO_URI}
       - JWT_SECRET=${JWT_SECRET}
+    platform: linux/amd64
+
 networks:
   keep-net:
     driver: bridge
