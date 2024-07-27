@@ -5,7 +5,7 @@ services:
     ports:
       - 27017:27017
     networks:
-      - ${NETWORK_NAME}
+      - keep-net
     volumes:
       - keep-data:/data/db
   pf-frontend:
@@ -14,7 +14,7 @@ services:
     ports:
       - ${FRONTEND_PORT}:${FRONTEND_PORT}
     networks:
-      - ${NETWORK_NAME}
+      - keep-net
     environment:
       - NGINX_PORT=${FRONTEND_PORT}
       - NGINX_PROXY=http://${PROJECT_NAME}:${BACKEND_PORT}/api
@@ -25,12 +25,12 @@ services:
     depends_on:
       - database
     networks:
-      - ${NETWORK_NAME}
+      - keep-net
     environment:
       - MONGO_URI=${MONGO_URI}
       - JWT_SECRET=${JWT_SECRET}
 networks:
-  ${NETWORK_NAME}:
+  keep-net:
     driver: bridge
 
 volumes:
