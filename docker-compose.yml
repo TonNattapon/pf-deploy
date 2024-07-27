@@ -1,14 +1,14 @@
 name: ${PROJECT_NAME}
-
 services:
-  database:
+  mongo:
     image: mongo:latest
+    container_name: ${PROJECT_NAME}-db
     ports:
       - 27017:27017
     networks:
       - keep-net
     volumes:
-      - keep-data:/data/db
+      - keep-data:/var/lib/mongo/data
 
   frontend:
     image: ${FRONTEND_IMAGE_NAME}
@@ -27,7 +27,7 @@ services:
     ports:
       - ${BACKEND_PORT}:${BACKEND_PORT}
     depends_on:
-      - database
+      - mongo
     networks:
       - keep-net
     environment:
@@ -36,8 +36,8 @@ services:
 
 networks:
   keep-net:
-    driver: bridge
+    name: ${PROJECT_NAME}-net
 
 volumes:
   keep-data:
-    driver: local
+    name: ${PROJECT_NAME}-data
