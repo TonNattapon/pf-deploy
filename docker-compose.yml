@@ -8,7 +8,8 @@ services:
       - keep-network
     environment:
       - NGINX_PORT=${FRONTEND_PORT}
-      - NGINX_PROXY=http://${PROJECT_NAME}:${BACKEND_PORT}/api
+      - NGINX_PROXY=http://keep-backend:${BACKEND_PORT}/api
+      - VITE_SERVER_URL=http://keep-backend:${BACKEND_PORT}/api
 
   backend:
     image: ${BACKEND_IMAGE_NAME}
