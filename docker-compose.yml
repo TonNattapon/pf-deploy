@@ -6,27 +6,27 @@ services:
     ports:
       - ${FRONTEND_PORT}:${FRONTEND_PORT}
     networks:
-      - pf-net
+      - ${NETWORK_NAME}
     environment:
       - NGINX_PORT=${FRONTEND_PORT}
-      - NGINX_PROXY=http://${PROJECT_NAME}:5001/api
+      - NGINX_PROXY=http://${PROJECT_NAME}:${BACKEND_PORT}/api
   pf-backend:
     image: ${BACKEND_IMAGE_NAME}
     ports:
-      - 5001:5001
+      - ${BACKEND_PORT}:${BACKEND_PORT}
     depends_on:
       - database
     networks:
-      - pf-net
+      - ${NETWORK_NAME}
     environment:
-      - MONGO_URI=mongodb://database:27017/shorterURL
+      - MONGO_URI=${MONGO_URI}
       - JWT_SECRET=${JWT_SECRET}
   database:
     image: mongo:latest
     ports:
       - 27017:27017
     networks:
-      - pf-net
+      - ${NETWORK_NAME}
     volumes:
       - mongo-data:/data/db
 
