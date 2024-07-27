@@ -1,23 +1,10 @@
-name: ${PROJECT_NAME}
 services:
-  mongo:
-    image: mongo:latest
-    container_name: ${PROJECT_NAME}-db
-    ports:
-      - 27017:27017
-    networks:
-      - keep-net
-    volumes:
-      - keep-data:/var/lib/mongo/data
-
   frontend:
     image: ${FRONTEND_IMAGE_NAME}
-    depends_on:
-      - backend
     ports:
       - ${FRONTEND_PORT}:${FRONTEND_PORT}
     networks:
-      - keep-net
+      - my-network
     environment:
       - NGINX_PORT=${FRONTEND_PORT}
       - NGINX_PROXY=http://${PROJECT_NAME}:${BACKEND_PORT}/api
@@ -26,17 +13,24 @@ services:
     image: ${BACKEND_IMAGE_NAME}
     ports:
       - ${BACKEND_PORT}:${BACKEND_PORT}
-    depends_on:
-      - mongo
     networks:
-      - keep-net
+      - my-network
     environment:
       - MONGO_URI=${MONGO_URI}
       - JWT_SECRET=${JWT_SECRET}
 
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    networks:
+      - my-network
+    volumes:
+      - keep-data:/data/db
+
 networks:
-  keep-net:
-    external: true
+  my-network:
+    driver: bridge
 
 volumes:
   keep-data:
