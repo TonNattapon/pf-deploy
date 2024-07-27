@@ -1,6 +1,7 @@
 services:
   frontend:
-    image: docker.io/tonnatthapon/shorturl-frontend:latest
+    image: ${FRONTEND_IMAGE_NAME}
+    container_name: ${PROJECT_NAME}-frontend
     ports:
       - ${FRONTEND_PORT}:${FRONTEND_PORT}
     networks:
@@ -11,6 +12,7 @@ services:
 
   backend:
     image: ${BACKEND_IMAGE_NAME}
+    container_name: ${PROJECT_NAME}-backend
     ports:
       - ${BACKEND_PORT}:${BACKEND_PORT}
     depends_on:
@@ -23,6 +25,7 @@ services:
 
   mongo:
     image: mongo:latest
+    container_name: ${PROJECT_NAME}-db
     ports:
       - 27017:27017
     networks:
@@ -32,8 +35,8 @@ services:
 
 networks:
   keep-network:
-    driver: bridge
+    name: ${PROJECT_NAME}-network
 
 volumes:
   keep-data:
-    driver: local
+    name: ${PROJECT_NAME}-data
