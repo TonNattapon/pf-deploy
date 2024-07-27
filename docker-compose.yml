@@ -8,8 +8,8 @@ services:
       - ${NETWORK_NAME}
     environment:
       - NGINX_PORT=${FRONTEND_PORT}
-      - NGINX_PROXY=http://${PROJECT_NAME}-backend:${BACKEND_PORT}/api
-      - VITE_SERVER_URL=http://${PROJECT_NAME}-backend:${BACKEND_PORT}/api
+      - NGINX_PROXY=http://10.10.182.248:${BACKEND_PORT}/api
+      - VITE_SERVER_URL=http://10.10.182.248:${BACKEND_PORT}/api
 
   backend:
     image: ${BACKEND_IMAGE_NAME}
