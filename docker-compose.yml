@@ -35,7 +35,7 @@ services:
       - keep-data:/data/db
 
 networks:
-  ${NETWORK_NAME}:
+  keep-network:
     name: ${NETWORK_NAME}
 
 volumes:
