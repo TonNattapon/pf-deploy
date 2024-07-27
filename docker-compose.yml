@@ -9,7 +9,7 @@ services:
       - pf-net
     environment:
       - NGINX_PORT=${FRONTEND_PORT}
-      - NGINX_PROXY=http://localhost:5001/api
+      - NGINX_PROXY=http://${PROJECT_NAME}:5001/api
   pf-backend:
     image: ${BACKEND_IMAGE_NAME}
     ports:
