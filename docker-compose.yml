@@ -37,6 +37,7 @@ services:
 networks:
   keep-net:
     name: ${PROJECT_NAME}-net
+    external: true
 
 volumes:
   keep-data:
