@@ -34,5 +34,5 @@ networks:
     driver: bridge
 
 volumes:
-  mongo-data:
+  keep-data:
     driver: local
