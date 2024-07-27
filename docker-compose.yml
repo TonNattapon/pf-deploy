@@ -1,13 +1,13 @@
+version: "3.8"
+
 services:
   frontend:
-    image: ${FRONTEND_IMAGE_NAME}
+    image: docker.io/tonnatthapon/shorturl-frontend:latest
     platform: linux/amd64
-    depends_on:
-      - backend
     ports:
       - ${FRONTEND_PORT}:${FRONTEND_PORT}
     networks:
-      - keep-net
+      - keep-network
     environment:
       - NGINX_PORT=${FRONTEND_PORT}
       - NGINX_PROXY=http://${PROJECT_NAME}:${BACKEND_PORT}/api
@@ -20,7 +20,7 @@ services:
     depends_on:
       - mongo
     networks:
-      - keep-net
+      - keep-network
     environment:
       - MONGO_URI=${MONGO_URI}
       - JWT_SECRET=${JWT_SECRET}
@@ -31,12 +31,12 @@ services:
     ports:
       - 27017:27017
     networks:
-      - keep-net
+      - keep-network
     volumes:
       - keep-data:/data/db
 
 networks:
-  keep-net:
+  keep-network:
     driver: bridge
 
 volumes:
