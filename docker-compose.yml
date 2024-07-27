@@ -5,11 +5,11 @@ services:
     ports:
       - ${FRONTEND_PORT}:${FRONTEND_PORT}
     networks:
-      - keep-network
+      - ${NETWORK_NAME}
     environment:
       - NGINX_PORT=${FRONTEND_PORT}
-      - NGINX_PROXY=http://keep-backend:${BACKEND_PORT}/api
-      - VITE_SERVER_URL=http://keep-backend:${BACKEND_PORT}/api
+      - NGINX_PROXY=http://${PROJECT_NAME}-backend:${BACKEND_PORT}/api
+      - VITE_SERVER_URL=http://${PROJECT_NAME}-backend:${BACKEND_PORT}/api
 
   backend:
     image: ${BACKEND_IMAGE_NAME}
@@ -19,7 +19,7 @@ services:
     depends_on:
       - mongo
     networks:
-      - keep-network
+      - ${NETWORK_NAME}
     environment:
       - MONGO_URI=${MONGO_URI}
       - JWT_SECRET=${JWT_SECRET}
@@ -30,13 +30,13 @@ services:
     ports:
       - 27017:27017
     networks:
-      - keep-network
+      - ${NETWORK_NAME}
     volumes:
       - keep-data:/data/db
 
 networks:
-  keep-network:
-    name: ${PROJECT_NAME}-network
+  ${NETWORK_NAME}:
+    name: ${NETWORK_NAME}
 
 volumes:
   keep-data:
