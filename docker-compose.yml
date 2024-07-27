@@ -1,6 +1,6 @@
 name: ${PROJECT_NAME}
 services:
-  database:
+  keep-db:
     image: mongo:latest
     ports:
       - 27017:27017
@@ -10,7 +10,8 @@ services:
       - keep-data:/data/db
   keep-frontend:
     image: ${FRONTEND_IMAGE_NAME}
-    stdin_open: true
+    depends_on:
+      - keep-backend
     ports:
       - ${FRONTEND_PORT}:${FRONTEND_PORT}
     networks:
@@ -23,7 +24,7 @@ services:
     ports:
       - ${BACKEND_PORT}:${BACKEND_PORT}
     depends_on:
-      - database
+      - keep-db
     networks:
       - keep-net
     environment:
